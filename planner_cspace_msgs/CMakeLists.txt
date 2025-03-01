@@ -1,24 +1,23 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.14.4)
 project(planner_cspace_msgs)
 
+set(CMAKE_CXX_STANDARD 17)
+
 set(MESSAGE_DEPENDS
-  actionlib_msgs
   geometry_msgs
   std_msgs
 )
 
-find_package(catkin REQUIRED COMPONENTS message_generation ${MESSAGE_DEPENDS})
+find_package(ament_cmake REQUIRED)
+find_package(rosidl_default_generators)
+foreach(PKD ${MESSAGE_DEPENDS})
+  find_package(${PKD} REQUIRED)
+endforeach()
 
-add_action_files(
-  DIRECTORY
-    action
-  FILES
-    MoveWithTolerance.action
+rosidl_generate_interfaces(${PROJECT_NAME}
+  action/MoveWithTolerance.action
+  msg/PlannerStatus.msg
+  DEPENDENCIES ${MESSAGE_DEPENDS}
 )
-
-add_message_files(
-  FILES
-    PlannerStatus.msg
-)
-generate_messages(DEPENDENCIES ${MESSAGE_DEPENDS})
-catkin_package(CATKIN_DEPENDS message_runtime ${MESSAGE_DEPENDS})
+ament_export_dependencies(rosidl_default_runtime)
+ament_package()
