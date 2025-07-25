@@ -1,2 +1,2 @@
 std_msgs/Header header
-PoseStampedWithVelocity[] poses
+trajectory_tracker_msgs/PoseStampedWithVelocity[] poses
