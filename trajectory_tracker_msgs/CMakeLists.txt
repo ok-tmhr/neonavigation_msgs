@@ -15,7 +15,7 @@ foreach(PKG ${MESSAGE_DEPENDS})
   find_package(${PKG} REQUIRED)
 endforeach()
 
-rosidl_generate_interfaces(
+rosidl_generate_interfaces(${PROJECT_NAME}
   srv/ChangePath.srv
   msg/PathWithVelocity.msg
   msg/PoseStampedWithVelocity.msg

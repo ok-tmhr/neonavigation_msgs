@@ -7,4 +7,4 @@ std_msgs/Header header
 float32 distance_remains
 float32 angle_remains
 int32 status
-Header path_header
+std_msgs/Header path_header
