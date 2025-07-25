@@ -25,6 +25,11 @@ rosidl_generate_interfaces(${PROJECT_NAME}
 )
 ament_export_dependencies(rosidl_default_runtime)
 
+install(DIRECTORY include/
+  DESTINATION include/${PROJECT_NAME}
+)
+ament_export_include_directories()
+
 # if(CATKIN_ENABLE_TESTING)
 # set(THREADS_PREFER_PTHREAD_FLAG ON)
 # find_package(Threads REQUIRED)
