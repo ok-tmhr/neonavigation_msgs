@@ -35,9 +35,7 @@ if (BUILD_TESTING)
   find_package(Threads REQUIRED)
 
   find_package(ament_cmake_gtest REQUIRED)
-  ament_add_gtest(test_path_with_velocity_conversion 
-    test/src/test_path_with_velocity_conversion.cpp
-  )
+  ament_add_gtest(test_path_with_velocity_conversion test/src/test_path_with_velocity_conversion.cpp)
   
   find_package(ament_lint_auto REQUIRED)
   ament_lint_auto_find_test_dependencies()
