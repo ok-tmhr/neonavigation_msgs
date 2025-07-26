@@ -1,49 +1,58 @@
-cmake_minimum_required(VERSION 3.0.2)
+cmake_minimum_required(VERSION 3.14.4)
 project(trajectory_tracker_msgs)
+
+set(CMAKE_CXX_STANDARD 17)
 
 set(MESSAGE_DEPENDS
   geometry_msgs
   std_msgs
 )
 
-find_package(catkin REQUIRED COMPONENTS message_generation ${MESSAGE_DEPENDS})
+find_package(ament_cmake REQUIRED)
+find_package(rosidl_default_generators REQUIRED)
 
-add_service_files(
-  FILES
-    ChangePath.srv
-)
-add_message_files(
-  FILES
-    PathWithVelocity.msg
-    PoseStampedWithVelocity.msg
-    TrajectoryServerStatus.msg
-    TrajectoryTrackerStatus.msg
-)
-generate_messages(DEPENDENCIES ${MESSAGE_DEPENDS})
-catkin_package(
-  INCLUDE_DIRS include
-  CATKIN_DEPENDS message_runtime ${MESSAGE_DEPENDS}
-)
+foreach(PKG ${MESSAGE_DEPENDS})
+  find_package(${PKG} REQUIRED)
+endforeach()
 
-include_directories(include ${catkin_INCLUDE_DIRS})
+rosidl_generate_interfaces(${PROJECT_NAME}
+  srv/ChangePath.srv
+  msg/PathWithVelocity.msg
+  msg/PoseStampedWithVelocity.msg
+  msg/TrajectoryServerStatus.msg
+  msg/TrajectoryTrackerStatus.msg
+  DEPENDENCIES ${MESSAGE_DEPENDS}
+)
+ament_export_dependencies(rosidl_default_runtime)
 
-if(CATKIN_ENABLE_TESTING)
+if (BUILD_TESTING)
   set(THREADS_PREFER_PTHREAD_FLAG ON)
   find_package(Threads REQUIRED)
 
-  find_package(roscpp REQUIRED)
-  find_package(rosunit REQUIRED)
+  find_package(ament_cmake_gtest REQUIRED)
+  ament_add_gtest(test_path_with_velocity_conversion test/src/test_path_with_velocity_conversion.cpp)
 
-  add_compile_options(-std=c++11)
+  find_package(ament_lint_auto REQUIRED)
+  ament_lint_auto_find_test_dependencies()
 
-  catkin_add_gtest(test_path_with_velocity_conversion test/src/test_path_with_velocity_conversion.cpp)
-  target_link_libraries(test_path_with_velocity_conversion ${catkin_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
+  target_include_directories(test_path_with_velocity_conversion PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include>
+  )
 
-  find_package(roslint REQUIRED)
-  roslint_cpp()
-  roslint_add_test()
+  rosidl_get_typesupport_target(cpp_typesupport_target
+    ${PROJECT_NAME} rosidl_typesupport_cpp
+  )
+
+  target_link_libraries(test_path_with_velocity_conversion
+    rclcpp::rclcpp ${geometry_msgs_TARGETS} ${std_msgs_TARGETS} ${nav_msgs_TARGETS} ${cpp_typesupport_target}
+  )
+
 endif()
 
-install(DIRECTORY include/${PROJECT_NAME}/
-  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+install(DIRECTORY include/
+  DESTINATION include/${PROJECT_NAME}
 )
+ament_export_include_directories()
+
+ament_package()

@@ -1,15 +1,21 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.14.4)
 project(map_organizer_msgs)
+
+set(CMAKE_CXX_STANDARD 17)
 
 set(MESSAGE_DEPENDS
   nav_msgs
 )
 
-find_package(catkin REQUIRED COMPONENTS message_generation ${MESSAGE_DEPENDS})
+find_package(ament_cmake REQUIRED)
+find_package(rosidl_default_generators REQUIRED)
+foreach(PKG ${MESSAGE_DEPENDS})
+  find_package(${PKG} REQUIRED)
+endforeach()
 
-add_message_files(
-  FILES
-    OccupancyGridArray.msg
+rosidl_generate_interfaces(${PROJECT_NAME}
+  msg/OccupancyGridArray.msg
+  DEPENDENCIES ${MESSAGE_DEPENDS}
 )
-generate_messages(DEPENDENCIES ${MESSAGE_DEPENDS})
-catkin_package(CATKIN_DEPENDS message_runtime ${MESSAGE_DEPENDS})
+ament_export_dependencies(rosidl_default_runtime)
+ament_package()
