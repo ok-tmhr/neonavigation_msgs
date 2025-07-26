@@ -33,10 +33,10 @@
 #include <string>
 #include <utility>
 
-#include <neonavigation_metrics_msgs/Metric.h>
-#include <neonavigation_metrics_msgs/Metrics.h>
+#include <neonavigation_metrics_msgs/msg/metric.hpp>
+#include <neonavigation_metrics_msgs/msg/metrics.hpp>
 
-namespace neonavigation_metrics_msgs
+namespace neonavigation_metrics_msgs::msg
 {
 template <typename... Strings>
 Metric metric(
