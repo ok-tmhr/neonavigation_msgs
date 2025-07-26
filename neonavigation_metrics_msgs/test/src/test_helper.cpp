@@ -33,7 +33,7 @@
 
 TEST(Helper, metric)
 {
-  const auto m = neonavigation_metrics_msgs::metric("hoge", 1.23, "x", "tag1", "tag2");
+  const auto m = neonavigation_metrics_msgs::msg::metric("hoge", 1.23, "x", "tag1", "tag2");
   ASSERT_EQ("hoge", m.name);
   ASSERT_EQ(1.23, m.value);
   ASSERT_EQ("x", m.unit);
@@ -44,7 +44,7 @@ TEST(Helper, metric)
 
 TEST(Helper, metricNoTags)
 {
-  const auto m = neonavigation_metrics_msgs::metric("hoge", 1.23, "i");
+  const auto m = neonavigation_metrics_msgs::msg::metric("hoge", 1.23, "i");
   ASSERT_EQ("hoge", m.name);
   ASSERT_EQ(1.23, m.value);
   ASSERT_EQ("i", m.unit);

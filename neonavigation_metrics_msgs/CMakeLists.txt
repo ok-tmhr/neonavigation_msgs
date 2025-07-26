@@ -1,37 +1,46 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.14.4)
 project(neonavigation_metrics_msgs)
+
+set(CMAKE_CXX_STANDARD 17)
 
 set(MESSAGE_DEPENDS
   std_msgs
 )
 
-find_package(catkin REQUIRED COMPONENTS message_generation ${MESSAGE_DEPENDS})
+find_package(ament_cmake REQUIRED)
+find_package(rosidl_default_generators REQUIRED)
+foreach(PACKAGE ${MESSAGE_DEPENDS})
+  find_package(${PACKAGE} REQUIRED)
+endforeach()
 
-add_message_files(
-  FILES
-    Metric.msg
-    Metrics.msg
+rosidl_generate_interfaces(${PROJECT_NAME}
+  msg/Metric.msg
+  msg/Metrics.msg
+  DEPENDENCIES ${MESSAGE_DEPENDS}
 )
-generate_messages(DEPENDENCIES ${MESSAGE_DEPENDS})
-catkin_package(
-  INCLUDE_DIRS include
-  CATKIN_DEPENDS message_runtime ${MESSAGE_DEPENDS}
-)
+ament_export_dependencies(rosidl_default_runtime)
 
-include_directories(include ${catkin_INCLUDE_DIRS})
+if(BUILD_TESTING)
 
-if(CATKIN_ENABLE_TESTING)
-  set(CMAKE_CXX_STANDARD 17)
-  set(CMAKE_CXX_STANDARD_REQUIRED ON)
+  find_package(ament_cmake_gtest REQUIRED)
+  ament_add_gtest(test_helper test/src/test_helper.cpp)
+  target_include_directories(test_helper PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include>
+  )
+  rosidl_get_typesupport_target(cpp_typesupport_target
+    ${PROJECT_NAME} rosidl_typesupport_cpp
+  )
+  target_link_libraries(test_helper ${cpp_typesupport_target})
 
-  catkin_add_gtest(test_helper test/src/test_helper.cpp)
-  target_link_libraries(test_helper ${catkin_LIBRARIES})
-
-  find_package(roslint REQUIRED)
-  roslint_cpp()
-  roslint_add_test()
+  find_package(ament_lint_auto REQUIRED)
+  ament_lint_auto_find_test_dependencies()
 endif()
 
-install(DIRECTORY include/${PROJECT_NAME}/
-  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+install(DIRECTORY include/
+  DESTINATION include/${PROJECT_NAME}
 )
+
+ament_export_include_directories()
+
+ament_package()
