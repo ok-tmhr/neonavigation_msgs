@@ -30,22 +30,22 @@
 #ifndef TRAJECTORY_TRACKER_MSGS_CONVERTER_H
 #define TRAJECTORY_TRACKER_MSGS_CONVERTER_H
 
-#include <geometry_msgs/PoseStamped.h>
-#include <geometry_msgs/Vector3.h>
-#include <nav_msgs/Path.h>
-#include <trajectory_tracker_msgs/PathWithVelocity.h>
+#include <geometry_msgs/msg/pose_stamped.hpp>
+#include <geometry_msgs/msg/vector3.hpp>
+#include <nav_msgs/msg/path.hpp>
+#include <trajectory_tracker_msgs/msg/path_with_velocity.hpp>
 
-namespace trajectory_tracker_msgs
+namespace trajectory_tracker_msgs::msg
 {
 inline PathWithVelocity toPathWithVelocity(
-    const nav_msgs::Path& src,
+    const nav_msgs::msg::Path& src,
     const double vel)
 {
   PathWithVelocity dest;
   dest.header = src.header;
   dest.poses.clear();
   dest.poses.reserve(src.poses.size());
-  for (const geometry_msgs::PoseStamped& p : src.poses)
+  for (const geometry_msgs::msg::PoseStamped& p : src.poses)
   {
     PoseStampedWithVelocity pv;
     pv.header = p.header;
@@ -56,14 +56,14 @@ inline PathWithVelocity toPathWithVelocity(
   return dest;
 }
 inline PathWithVelocity toPathWithVelocity(
-    const nav_msgs::Path& src,
-    const geometry_msgs::Vector3& vel)
+    const nav_msgs::msg::Path& src,
+    const geometry_msgs::msg::Vector3& vel)
 {
   PathWithVelocity dest;
   dest.header = src.header;
   dest.poses.clear();
   dest.poses.reserve(src.poses.size());
-  for (const geometry_msgs::PoseStamped& p : src.poses)
+  for (const geometry_msgs::msg::PoseStamped& p : src.poses)
   {
     PoseStampedWithVelocity pv;
     pv.header = p.header;

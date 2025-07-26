@@ -29,20 +29,21 @@
 
 #include <gtest/gtest.h>
 
-#include <geometry_msgs/PoseStamped.h>
-#include <geometry_msgs/Vector3.h>
-#include <nav_msgs/Path.h>
-#include <trajectory_tracker_msgs/PathWithVelocity.h>
+#include <geometry_msgs/msg/pose_stamped.hpp>
+#include <geometry_msgs/msg/vector3.hpp>
+#include <nav_msgs/msg/path.hpp>
+#include <trajectory_tracker_msgs/msg/path_with_velocity.hpp>
+#include <rclcpp/time.hpp>
 
 #include <trajectory_tracker_msgs/converter.h>
 
 namespace
 {
-nav_msgs::Path generatePath()
+nav_msgs::msg::Path generatePath()
 {
-  nav_msgs::Path path;
+  nav_msgs::msg::Path path;
   path.header.frame_id = "frame-name";
-  path.header.stamp = ros::Time(1234.5);
+  path.header.stamp = rclcpp::Time(1234.5);
   path.poses.resize(2);
   path.poses[0].pose.orientation.w = 1.0;
   path.poses[0].pose.position.x = 2.0;
@@ -53,12 +54,12 @@ nav_msgs::Path generatePath()
   return path;
 }
 
-geometry_msgs::Vector3 generateVector3(
+geometry_msgs::msg::Vector3 generateVector3(
     const double x,
     const double y,
     const double z)
 {
-  geometry_msgs::Vector3 vec;
+  geometry_msgs::msg::Vector3 vec;
   vec.x = x;
   vec.y = y;
   vec.z = z;
@@ -68,9 +69,9 @@ geometry_msgs::Vector3 generateVector3(
 
 TEST(Converter, ToPathWithVelocityScalar)
 {
-  const nav_msgs::Path in = generatePath();
-  const trajectory_tracker_msgs::PathWithVelocity out =
-      trajectory_tracker_msgs::toPathWithVelocity(in, 1.23);
+  const nav_msgs::msg::Path in = generatePath();
+  const trajectory_tracker_msgs::msg::PathWithVelocity out =
+      trajectory_tracker_msgs::msg::toPathWithVelocity(in, 1.23);
 
   ASSERT_EQ(in.header.frame_id, out.header.frame_id);
   ASSERT_EQ(in.header.stamp, out.header.stamp);
@@ -93,10 +94,10 @@ TEST(Converter, ToPathWithVelocityScalar)
 
 TEST(Converter, ToPathWithVelocityVector)
 {
-  const nav_msgs::Path in = generatePath();
-  const geometry_msgs::Vector3 vel = generateVector3(1.23, 0.12, 0.23);
-  const trajectory_tracker_msgs::PathWithVelocity out =
-      trajectory_tracker_msgs::toPathWithVelocity(in, vel);
+  const nav_msgs::msg::Path in = generatePath();
+  const geometry_msgs::msg::Vector3 vel = generateVector3(1.23, 0.12, 0.23);
+  const trajectory_tracker_msgs::msg::PathWithVelocity out =
+      trajectory_tracker_msgs::msg::toPathWithVelocity(in, vel);
 
   ASSERT_EQ(in.header.frame_id, out.header.frame_id);
   ASSERT_EQ(in.header.stamp, out.header.stamp);
