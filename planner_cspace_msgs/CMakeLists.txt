@@ -1,7 +1,10 @@
 cmake_minimum_required(VERSION 3.14.4)
 project(planner_cspace_msgs)
 
-set(CMAKE_CXX_STANDARD 17)
+if(NOT CMAKE_CXX_STANDARD)
+  set(CMAKE_CXX_STANDARD 17)
+  set(CMAKE_CXX_STANDARD_REQUIRED ON)
+endif()
 
 set(MESSAGE_DEPENDS
   geometry_msgs
