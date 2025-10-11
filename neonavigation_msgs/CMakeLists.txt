@@ -1,10 +1,6 @@
 cmake_minimum_required(VERSION 3.14.4)
 project(neonavigation_msgs)
+
 find_package(ament_cmake REQUIRED)
-find_package(planner_cspace_msgs REQUIRED)
-find_package(costmap_cspace_msgs REQUIRED)
-find_package(map_organizer_msgs REQUIRED)
-find_package(neonavigation_metrics_msgs REQUIRED)
-find_package(safety_limiter_msgs REQUIRED)
-find_package(trajectory_tracker_msgs REQUIRED)
+
 ament_package()
