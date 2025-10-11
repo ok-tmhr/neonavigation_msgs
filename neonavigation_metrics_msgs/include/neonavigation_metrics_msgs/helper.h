@@ -28,8 +28,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef NEONAVIGATION_METRICS_MSGS_HELPER_H
-#define NEONAVIGATION_METRICS_MSGS_HELPER_H
+#pragma once
 
 #include <string>
 #include <utility>
@@ -55,4 +54,3 @@ Metric metric(
 }
 }  // namespace neonavigation_metrics_msgs
 
-#endif  // NEONAVIGATION_METRICS_MSGS_HELPER_H

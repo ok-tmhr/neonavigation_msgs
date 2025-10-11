@@ -28,8 +28,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef TRAJECTORY_TRACKER_MSGS_CONVERTER_H
-#define TRAJECTORY_TRACKER_MSGS_CONVERTER_H
+#pragma once
 
 #include <geometry_msgs/msg/pose_stamped.hpp>
 #include <geometry_msgs/msg/vector3.hpp>
@@ -76,4 +75,3 @@ inline PathWithVelocity toPathWithVelocity(
 }
 }  // namespace trajectory_tracker_msgs
 
-#endif  // TRAJECTORY_TRACKER_MSGS_CONVERTER_H
